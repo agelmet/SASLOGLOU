@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApexFlow | AI-Powered Business Growth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           1. CSS VARIABLES & RESET
+           ========================================================================== */
+        :root {
+            --bg-dark: #050505;
+            --bg-darker: #020202;
+            --accent-blue: #00f0ff;
+            --accent-purple: #8a2be2;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --gradient-primary: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ==========================================================================
+           2. TYPOGRAPHY & UTILITIES
+           ========================================================================== */
+        h1, h2, h3, h4 { font-weight: 800; line-height: 1.2; margin-bottom: 1rem; }
+        p { margin-bottom: 1rem; color: var(--text-muted); font-size: 1.1rem; }
+        
+        .text-gradient {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-padding { padding: 8rem 0 4rem; }
+        .text-center { text-align: center; }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1.1rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 240, 255, 0.5);
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+            transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 240, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==========================================================================
+           3. GLOBAL ELEMENTS (HEADER & FOOTER)
+           ========================================================================== */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img { height: 45px; width: auto; }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-blue);
+        }
+
+        .nav-booking {
+            background: var(--gradient-primary);
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            color: #fff !important;
+        }
+
+        footer {
+            background: var(--bg-darker);
+            border-top: 1px solid var(--glass-border);
+            padding: 4rem 0 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-info img { height: 50px; margin-bottom: 1.5rem; }
+        .footer-info p { margin-bottom: 0.5rem; font-size: 0.95rem; }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-bottom p { font-size: 0.85rem; margin-bottom: 0.5rem; color: #777;}
+        .footer-bottom a { color: #777; text-decoration: none; margin: 0 10px; font-size: 0.85rem; transition: color 0.3s; }
+        .footer-bottom a:hover { color: var(--accent-blue); }
+
+        /* ==========================================================================
+           4. PAGE ROUTING SYSTEM (SPA)
+           ========================================================================== */
+        .page-view { display: none; min-height: 80vh; }
+        .page-view.active-page { display: block; animation: fadeInPage 0.5s ease; }
+        
+        @keyframes fadeInPage {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==========================================================================
+           5. PAGE SPECIFIC STYLES
+           ========================================================================== */
+        /* Home */
+        .hero { min-height: 90vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; }
+        .hero-glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(138,43,226,0.15) 0%, rgba(0,0,0,0) 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1; pointer-events: none;}
+        .hero h1 { font-size: 4.5rem; margin-bottom: 1.5rem; }
+        .hero p { font-size: 1.25rem; max-width: 700px; margin: 0 auto 2.5rem; }
+        
+        .mini-services { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 4rem 0; }
+        .cta-section { text-align: center; padding: 6rem 0; background: rgba(255,255,255,0.01); border-radius: 20px; border: 1px solid var(--glass-border); margin-top: 4rem;}
+
+        /* Services */
+        .services-grid { display: grid; grid-template-columns: 1fr; gap: 4rem; margin-top: 3rem; }
+        .service-feature-list { list-style: none; margin-top: 1.5rem; }
+        .service-feature-list li { margin-bottom: 1rem; padding-left: 2rem; position: relative; color: var(--text-muted);}
+        .service-feature-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent-blue); font-weight: bold;}
+
+        /* About & FAQ */
+        .faq-item { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; margin-bottom: 1.5rem; padding: 1.5rem; }
+        .faq-item h4 { margin-bottom: 1rem; color: var(--accent-blue); }
+        
+        /* Contact */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem;}
+        .contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
+        .form-group input, .form-group textarea { width: 100%; padding: 1rem; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); border-radius: 8px; color: #fff; font-size: 1rem; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--accent-blue); }
+        .form-group textarea { resize: vertical; min-height: 150px; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; /* In a real scenario, add a hamburger menu here */ }
+            .mini-services, .footer-grid, .contact-grid { grid-template-columns: 1fr; }
+            .section-padding { padding: 6rem 0 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container nav-container">
+            <a href="#home" class="logo">
+                <img src="https://github.com/agelmet/SASLOGLOU/blob/main/lg1.jpg?raw=true" alt="ApexFlow Logo">
+            </a>
+            <nav class="nav-links">
+                <a href="#home" class="nav-link" data-target="home">Home</a>
+                <a href="#about" class="nav-link" data-target="about">About</a>
+                <a href="#services" class="nav-link" data-target="services">Services</a>
+                <a href="#contact" class="nav-link" data-target="contact">Contact</a>
+                <a href="https://apexflow-ai.com/sasloglouevangelos/schedule-671986-3684" class="nav-booking">Booking</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="app-container">
+
+        <section id="page-home" class="page-view active-page">
+            <div class="hero">
+                <div class="hero-glow"></div>
+                <div class="container animate-on-scroll">
+                    <h1>Unlock <span class="text-gradient">AI-Powered</span><br>Business Growth</h1>
+                    <p>Automate your lead generation and appointment booking fully on autopilot. We find the leads, we call the leads, you close the deals.</p>
+                    <a href="https://apexflow-ai.com/sasloglouevangelos/schedule-671986-3684" class="btn btn-primary">Book an appointment</a>
+                </div>
+            </div>
+
+            <div class="container section-padding">
+                <div class="text-center animate-on-scroll">
+                    <h2>Our Core <span class="text-gradient">Systems</span></h2>
+                    <p>Brief overview of how we scale your operations.</p>
+                </div>
+                
+                <div class="mini-services">
+                    <div class="glass-card animate-on-scroll">
+                        <h3>Targeted Lead Gen</h3>
+                        <p>We run hyper-targeted Meta ad campaigns to find homeowners actively seeking your HVAC services. Professional creative, landing pages, and continuous optimization.</p>
+                        <a href="#services" style="color: var(--accent-blue); text-decoration: none; margin-top: 1rem; display: inline-block;">Learn More &rarr;</a>
+                    </div>
+                    <div class="glass-card animate-on-scroll">
+                        <h3>AI Calling Autopilot</h3>
+                        <p>Never miss a lead again. Our AI instantly calls, qualifies, and books appointments directly into your calendar 24/7 without you lifting a finger.</p>
+                        <a href="#services" style="color: var(--accent-purple); text-decoration: none; margin-top: 1rem; display: inline-block;">Learn More &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="cta-section animate-on-scroll">
+                    <h2>Ready to scale your business?</h2>
+                    <p>Let's map out a custom growth strategy for your local area.</p>
+                    <a href="https://apexflow-ai.com/sasloglouevangelos/schedule-671986-3684" class="btn btn-primary" style="margin-top: 2rem;">Book an appointment</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-services" class="page-view">
+            <div class="container section-padding">
+                <div class="text-center animate-on-scroll">
+                    <h1>Elite <span class="text-gradient">Services</span></h1>
+                    <p>Comprehensive AI architectures built to scale your revenue.</p>
+                </div>
+
+                <div class="services-grid">
+                    <div class="glass-card animate-on-scroll">
+                        <h2>AI-Powered Lead Generation & Advertising</h2>
+                        <div style="margin-top: 2rem;">
+                            <h4 style="color: var(--accent-blue);">What It Is</h4>
+                            <p>We run targeted advertising campaigns on Meta (Facebook/Instagram), to find homeowners actively looking for HVAC services in your area.</p>
+                            
+                            <h4 style="color: var(--accent-blue); margin-top: 1.5rem;">How It Works</h4>
+                            <p>Advanced audience targeting based on HVAC search behavior; Real-time optimization to lower your cost per lead.</p>
+                            
+                            <h4 style="color: var(--accent-blue); margin-top: 1.5rem;">What You Get</h4>
+                            <ul class="service-feature-list">
+                                <li>15-30 qualified leads per month</li>
+                                <li>Professional ad creative and landing pages</li>
+                                <li>Detailed performance reports</li>
+                                <li>Continuous optimization</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="glass-card animate-on-scroll">
+                        <h2>AI Calling System</h2>
+                        <div style="margin-top: 2rem;">
+                            <h4 style="color: var(--accent-purple);">What It Is</h4>
+                            <p>Our AI automatically calls your leads, qualifies them, and books appointments directly into your calendar — 24/7, without you lifting a finger fully on autopilot.</p>
+                            
+                            <h4 style="color: var(--accent-purple); margin-top: 1.5rem;">What You Get</h4>
+                            <ul class="service-feature-list">
+                                <li>Automatic follow-up (never miss a lead again)</li>
+                                <li>Qualified appointments booked for you</li>
+                                <li>Lead scoring and prioritization</li>
+                            </ul>
+
+                            <h4 style="color: var(--accent-purple); margin-top: 1.5rem;">Expected Results</h4>
+                            <ul class="service-feature-list">
+                                <li>70-80% of leads get contacted within 2 hours</li>
+                                <li>40-50% booking rate for qualified leads</li>
+                                <li>Zero missed leads</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-about" class="page-view">
+            <div class="container section-padding">
+                <div class="text-center animate-on-scroll">
+                    <h1>About <span class="text-gradient">ApexFlow</span></h1>
+                </div>
+                
+                <div class="glass-card animate-on-scroll" style="margin-top: 3rem;">
+                    <p>At ApexFlow, we bridge the gap between cutting-edge Artificial Intelligence and local service businesses. We understand that as an HVAC professional, your time belongs in the field, not chasing cold leads or managing complex software. We engineer fully autonomous systems that handle the heavy lifting of customer acquisition—from the first targeted ad view to a verified booked appointment on your calendar.</p>
+                </div>
+
+                <div class="animate-on-scroll" style="margin-top: 5rem;">
+                    <h2 class="text-center" style="margin-bottom: 3rem;">Frequently Asked <span class="text-gradient">Questions</span></h2>
+                    
+                    <div class="faq-item">
+                        <h4>Q: How much does it cost?</h4>
+                        <p>A: Pricing depends on whether you need the Advertising service only, AI caller system only or the full system. The final pricing will be determined during our scheduled discovery call.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h4>Q: I've been burned before. How do I know this isn't a scam?</h4>
+                        <p>A: Your concern is 100% understandable. That is precisely why ApexFlow operates under a performance-based guarantee clause. We contractually commit to delivering within the agreed timeframe. Should we fail to meet this obligation, we will continue providing services at no cost until the guarantee is satisfied. Your financial risk is very limited to the initial service fee. If we do not deliver, you incur no additional charges. We are confident in our methodology and willing to assume the financial risk to demonstrate our commitment to your success.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-contact" class="page-view">
+            <div class="container section-padding">
+                <div class="text-center animate-on-scroll">
+                    <h1>Get in <span class="text-gradient">Touch</span></h1>
+                    <p>Our dedicated support team is ready to assist you.</p>
+                </div>
+
+                <div class="contact-grid">
+                    <div class="glass-card animate-on-scroll">
+                        <h3 style="margin-bottom: 2rem;">Contact Information</h3>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--accent-blue); margin-bottom: 0.2rem;">Headquarters</h4>
+                            <p>Trapezountos 17<br>Drosia 14572<br>Greece</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--accent-blue); margin-bottom: 0.2rem;">Phone</h4>
+                            <p>+30 6983126763</p>
+                        </div>
+                        
+                        <div>
+                            <h4 style="color: var(--accent-blue); margin-bottom: 0.2rem;">Email Support</h4>
+                            <p>support@apexflow-ai.com</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card animate-on-scroll">
+                        <h3 style="margin-bottom: 2rem;">Send a Message</h3>
+                        <form class="contact-form" onsubmit="event.preventDefault(); alert('Message feature will be connected via GoHighLevel forms.');">
+                            <div class="form-group">
+                                <input type="text" placeholder="Full Name" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" placeholder="Email Address" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" placeholder="Phone Number">
+                            </div>
+                            <div class="form-group">
+                                <textarea placeholder="How can we help you?" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Inquiry</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <img src="https://github.com/agelmet/SASLOGLOU/blob/main/lg2.jpg?raw=true" alt="ApexFlow Footer Logo">
+                    <p>Trapezountos 17 Drosia 14572 Greece</p>
+                    <p>+30 6983126763</p>
+                    <p>support@apexflow-ai.com</p>
+                </div>
+                
+                <div class="footer-socials" style="text-align: right;">
+                    <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1rem;">
+                        <div style="width: 40px; height: 40px; background: var(--glass-bg); border-radius: 50%; display: flex; align-items:center; justify-content:center; border: 1px solid var(--glass-border);">IN</div>
+                        <div style="width: 40px; height: 40px; background: var(--glass-bg); border-radius: 50%; display: flex; align-items:center; justify-content:center; border: 1px solid var(--glass-border);">FB</div>
+                        <div style="width: 40px; height: 40px; background: var(--glass-bg); border-radius: 50%; display: flex; align-items:center; justify-content:center; border: 1px solid var(--glass-border);">X</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>©2026 ApexFlow. ApexFlow is a trade name of SASLOGLOU EVANGELOS.</p>
+                <div style="margin-top: 1rem;">
+                    <a href="https://apexflow-ai.com/privacypolicy-490388" target="_blank">Privacy Policy</a> | 
+                    <a href="https://apexflow-ai.com/terms-8605" target="_blank">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. SPA ROUTING LOGIC ---
+        // This ensures the single block functions perfectly as 4 distinct pages.
+        const routes = ['home', 'services', 'about', 'contact'];
+        
+        function handleRouting() {
+            // Get hash without the # symbol, default to 'home'
+            let currentHash = window.location.hash.substring(1);
+            if (!routes.includes(currentHash)) {
+                currentHash = 'home';
+                window.history.replaceState(null, null, '#home');
+            }
+
+            // Hide all pages
+            document.querySelectorAll('.page-view').forEach(page => {
+                page.classList.remove('active-page');
+            });
+
+            // Show target page
+            const targetPage = document.getElementById(`page-${currentHash}`);
+            if (targetPage) {
+                targetPage.classList.add('active-page');
+                window.scrollTo(0, 0); // Reset scroll position on route change
+                triggerAnimations(); // Re-trigger scroll animations for the new page
+            }
+
+            // Update active state in navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.target === currentHash) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Listen for URL changes
+        window.addEventListener('hashchange', handleRouting);
+        // Run on initial load
+        window.addEventListener('load', handleRouting);
+
+
+        // --- 2. SCROLL ANIMATION LOGIC ---
+        function triggerAnimations() {
+            const animatedElements = document.querySelectorAll('.animate-on-scroll');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        // Optional: Stop observing once animated
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1, // Trigger when 10% of element is visible
+                rootMargin: "0px 0px -50px 0px"
+            });
+
+            animatedElements.forEach(el => {
+                // Reset class for SPA route changes
+                el.classList.remove('is-visible'); 
+                observer.observe(el);
+            });
+        }
+    </script>
+</body>
+</html>
