@@ -185,6 +185,26 @@
         .footer-bottom a { color: #777; text-decoration: none; margin: 0 10px; font-size: 0.85rem; transition: color 0.3s; }
         .footer-bottom a:hover { color: var(--accent-blue); }
 
+        .social-link {
+            width: 40px; 
+            height: 40px; 
+            background: var(--glass-bg); 
+            border-radius: 50%; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            text-decoration: none;
+            transition: border-color 0.3s, color 0.3s, transform 0.3s;
+        }
+
+        .social-link:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            transform: translateY(-3px);
+        }
+
         /* ==========================================================================
            4. PAGE ROUTING SYSTEM (SPA)
            ========================================================================== */
@@ -246,7 +266,7 @@
                 <a href="#about" class="nav-link" data-target="about">About</a>
                 <a href="#services" class="nav-link" data-target="services">Services</a>
                 <a href="#contact" class="nav-link" data-target="contact">Contact</a>
-                <a href="https://apexflow-ai.com/sasloglouevangelos/schedule-671986-3684" class="nav-booking">Booking</a>
+                <a href="https://go.apexflow-ai.com/sasloglouevangelos/schedule-671986-3684" class="nav-booking">Booking</a>
             </nav>
         </div>
     </header>
@@ -259,7 +279,7 @@
                 <div class="container animate-on-scroll">
                     <h1>Unlock <span class="text-gradient">AI-Powered</span><br>Business Growth</h1>
                     <p>Automate your lead generation and appointment booking fully on autopilot. We find the leads, we call the leads, you close the deals.</p>
-                    <a href="https://apexflow-ai.com/sasloglouevangelos/schedule-671986-3684" class="btn btn-primary">Book an appointment</a>
+                    <a href="https://go.apexflow-ai.com/sasloglouevangelos/schedule-671986-3684" class="btn btn-primary">Book an appointment</a>
                 </div>
             </div>
 
@@ -285,7 +305,7 @@
                 <div class="cta-section animate-on-scroll">
                     <h2>Ready to scale your business?</h2>
                     <p>Let's map out a custom growth strategy for your local area.</p>
-                    <a href="https://apexflow-ai.com/sasloglouevangelos/schedule-671986-3684" class="btn btn-primary" style="margin-top: 2rem;">Book an appointment</a>
+                    <a href="https://go.apexflow-ai.com/sasloglouevangelos/schedule-671986-3684" class="btn btn-primary" style="margin-top: 2rem;">Book an appointment</a>
                 </div>
             </div>
         </section>
@@ -430,9 +450,9 @@
                 
                 <div class="footer-socials" style="text-align: right;">
                     <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1rem;">
-                        <div style="width: 40px; height: 40px; background: var(--glass-bg); border-radius: 50%; display: flex; align-items:center; justify-content:center; border: 1px solid var(--glass-border);">IN</div>
-                        <div style="width: 40px; height: 40px; background: var(--glass-bg); border-radius: 50%; display: flex; align-items:center; justify-content:center; border: 1px solid var(--glass-border);">FB</div>
-                        <div style="width: 40px; height: 40px; background: var(--glass-bg); border-radius: 50%; display: flex; align-items:center; justify-content:center; border: 1px solid var(--glass-border);">X</div>
+                        <a href="#" class="social-link">IN</a>
+                        <a href="https://www.facebook.com/share/1CDNfDVCL9/?mibextid=wwXIfr" target="_blank" class="social-link">FB</a>
+                        <a href="#" class="social-link">X</a>
                     </div>
                 </div>
             </div>
