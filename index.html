@@ -112,7 +112,7 @@
         }
 
         /* ==========================================================================
-           3. GLOBAL ELEMENTS (HEADER & FOOTER)
+           3. GLOBAL ELEMENTS & DYNAMIC SPA DISPLAY LOGIC
            ========================================================================== */
         header {
             position: fixed;
@@ -125,38 +125,12 @@
             padding: 1rem 0;
         }
 
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
+        .nav-container { display: flex; justify-content: space-between; align-items: center; }
         .logo img { height: 45px; width: auto; }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--accent-blue);
-        }
-
-        .nav-booking {
-            background: var(--gradient-primary);
-            padding: 0.6rem 1.5rem;
-            border-radius: 30px;
-            color: #fff !important;
-        }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a { color: var(--text-main); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: color 0.3s ease; }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent-blue); }
+        .nav-booking { background: var(--gradient-primary); padding: 0.6rem 1.5rem; border-radius: 30px; color: #fff !important; }
 
         footer {
             background: var(--bg-darker);
@@ -165,44 +139,29 @@
             margin-top: 4rem;
         }
 
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            margin-bottom: 3rem;
-        }
-
+        .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-bottom: 3rem; }
         .footer-info img { height: 50px; margin-bottom: 1.5rem; }
         .footer-info p { margin-bottom: 0.5rem; font-size: 0.95rem; }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid var(--glass-border);
-        }
-
+        .footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid var(--glass-border); }
         .footer-bottom p { font-size: 0.85rem; margin-bottom: 0.5rem; color: #777;}
         .footer-bottom a { color: #777; text-decoration: none; margin: 0 10px; font-size: 0.85rem; transition: color 0.3s; }
         .footer-bottom a:hover { color: var(--accent-blue); }
 
-        .social-link {
-            width: 40px; 
-            height: 40px; 
-            background: var(--glass-bg); 
-            border-radius: 50%; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            border: 1px solid var(--glass-border);
-            color: #fff;
-            text-decoration: none;
-            transition: border-color 0.3s, color 0.3s, transform 0.3s;
-        }
+        .social-link { width: 40px; height: 40px; background: var(--glass-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--glass-border); color: #fff; text-decoration: none; transition: border-color 0.3s, color 0.3s, transform 0.3s; }
+        .social-link:hover { border-color: var(--accent-blue); color: var(--accent-blue); transform: translateY(-3px); }
 
-        .social-link:hover {
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
-            transform: translateY(-3px);
+        /* --- DYNAMIC SPLASH STATE CSS --- */
+        /* Hide header and footer when on Splash page */
+        body.is-splash header,
+        body.is-splash footer {
+            display: none !important;
+        }
+        
+        /* Hide LeadConnector chat widget globally EXCEPT when on Splash page */
+        body:not(.is-splash) chat-widget,
+        body:not(.is-splash) #chat-widget,
+        body:not(.is-splash) .lc-chat-widget {
+            display: none !important;
         }
 
         /* ==========================================================================
@@ -219,6 +178,25 @@
         /* ==========================================================================
            5. PAGE SPECIFIC STYLES
            ========================================================================== */
+        
+        /* Splash Page */
+        #page-splash.active-page {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: var(--bg-dark);
+            text-align: center;
+        }
+        
+        .splash-logo {
+            max-width: 350px;
+            width: 80%;
+            margin-bottom: 3rem;
+            animation: fadeInPage 1s ease;
+        }
+
         /* Home */
         .hero { min-height: 90vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; }
         .hero-glow { position: absolute; width: 600px; height: 600px; background: radial-gradient(circle, rgba(138,43,226,0.15) 0%, rgba(0,0,0,0) 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1; pointer-events: none;}
@@ -248,18 +226,18 @@
         /* Responsive */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; /* In a real scenario, add a hamburger menu here */ }
+            .nav-links { display: none; }
             .mini-services, .footer-grid, .contact-grid { grid-template-columns: 1fr; }
             .section-padding { padding: 6rem 0 3rem; }
         }
     </style>
 </head>
-<body>
+<body class="is-splash">
 
     <header>
         <div class="container nav-container">
             <a href="#home" class="logo">
-                <img src="https://github.com/agelmet/SASLOGLOU/blob/main/lg1.jpg?raw=true" alt="ApexFlow Logo">
+                <img src="https://raw.githubusercontent.com/agelmet/SASLOGLOU/refs/heads/main/lg1.jpg" alt="ApexFlow Logo">
             </a>
             <nav class="nav-links">
                 <a href="#home" class="nav-link" data-target="home">Home</a>
@@ -273,7 +251,12 @@
 
     <main id="app-container">
 
-        <section id="page-home" class="page-view active-page">
+        <section id="page-splash" class="page-view active-page">
+            <img src="https://raw.githubusercontent.com/agelmet/SASLOGLOU/refs/heads/main/lg1.jpg" alt="ApexFlow Logo" class="splash-logo">
+            <a href="#home" class="btn btn-primary" style="animation: fadeInPage 1.5s ease;">Learn More</a>
+        </section>
+
+        <section id="page-home" class="page-view">
             <div class="hero">
                 <div class="hero-glow"></div>
                 <div class="container animate-on-scroll">
@@ -467,15 +450,24 @@
 
     <script>
         // --- 1. SPA ROUTING LOGIC ---
-        // This ensures the single block functions perfectly as 4 distinct pages.
-        const routes = ['home', 'services', 'about', 'contact'];
+        // This ensures the single block functions perfectly as 5 distinct pages.
+        const routes = ['splash', 'home', 'services', 'about', 'contact'];
         
         function handleRouting() {
-            // Get hash without the # symbol, default to 'home'
+            // Get hash without the # symbol, default to 'splash'
             let currentHash = window.location.hash.substring(1);
             if (!routes.includes(currentHash)) {
-                currentHash = 'home';
-                window.history.replaceState(null, null, '#home');
+                currentHash = 'splash';
+                window.history.replaceState(null, null, '#splash');
+            }
+
+            // --- Toggle Global Elements based on state ---
+            // If on splash screen, add the 'is-splash' class to body 
+            // (CSS handles hiding header, footer, and showing widget automatically)
+            if (currentHash === 'splash') {
+                document.body.classList.add('is-splash');
+            } else {
+                document.body.classList.remove('is-splash');
             }
 
             // Hide all pages
